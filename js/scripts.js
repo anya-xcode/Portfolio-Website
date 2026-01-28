@@ -89,7 +89,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     });
 
-    // 6. Minimal CSS for reveal effect (Injected)
+    // 6. Typing Effect for Hero
+    const typingText = document.querySelector('.typing-text');
+    if (typingText) {
+        const phrases = [
+            'Building Full-Stack Web Applications',
+            'Creating User-Friendly Interfaces',
+            'Solving Complex Problems with Code',
+            'Crafting Scalable MERN Stack Apps',
+            'Turning Ideas into Reality'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 80;
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 40;
+            } else {
+                typingText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 80;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                typingSpeed = 2000; // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typingSpeed = 500; // Pause before new phrase
+            }
+
+            setTimeout(typeEffect, typingSpeed);
+        }
+
+        // Start typing after a short delay
+        setTimeout(typeEffect, 1000);
+    }
+
+    // 7. Minimal CSS for reveal effect (Injected)
     const style = document.createElement('style');
     style.textContent = `
         .reveal-init {
@@ -114,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // 7. View More Projects Toggle
+    // 8. View More Projects Toggle
     const viewMoreBtn = document.querySelector('.view-more-btn');
     const hiddenProjects = document.querySelectorAll('.project-card.hidden-project');
 
