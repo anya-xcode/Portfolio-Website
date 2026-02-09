@@ -171,7 +171,7 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.8;
+    opacity: 1.0;
 }
 
 /* Header & Glass Navigation */
