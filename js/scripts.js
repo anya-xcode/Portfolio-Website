@@ -158,31 +158,86 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // 8. View More Projects Toggle
+    // 8. Project Filtering (Full Stack / AI ML)
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
     const viewMoreBtn = document.querySelector('.view-more-btn');
-    const hiddenProjects = document.querySelectorAll('.project-card.hidden-project');
+    const viewMoreContainer = document.getElementById('view-more-container');
 
-    if (viewMoreBtn && hiddenProjects.length > 0) {
-        viewMoreBtn.addEventListener('click', () => {
-            const isExpanded = viewMoreBtn.classList.contains('expanded');
+    function filterProjects(category) {
+        let visibleCount = 0;
+        let hasHiddenInCategory = false;
+
+        projectCards.forEach((card) => {
+            const isMatch = card.getAttribute('data-category') === category;
             
-            if (isExpanded) {
-                // Collapse - hide projects
-                hiddenProjects.forEach(project => {
-                    project.classList.remove('show');
-                });
-                viewMoreBtn.classList.remove('expanded');
-                viewMoreBtn.innerHTML = 'View More Projects <i class="fas fa-chevron-down"></i>';
+            if (isMatch) {
+                // If it's a match, we decide to show it based on hidden-project class
+                if (card.classList.contains('hidden-project')) {
+                    if (viewMoreBtn && viewMoreBtn.classList.contains('expanded')) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.classList.add('show'), 10);
+                    } else {
+                        card.style.display = 'none';
+                        card.classList.remove('show');
+                        hasHiddenInCategory = true;
+                    }
+                } else {
+                    card.style.display = 'block';
+                    setTimeout(() => card.classList.add('show'), 10);
+                }
+                visibleCount++;
             } else {
-                // Expand - show projects with staggered animation
-                hiddenProjects.forEach((project, index) => {
-                    setTimeout(() => {
-                        project.classList.add('show');
-                    }, index * 100);
-                });
-                viewMoreBtn.classList.add('expanded');
-                viewMoreBtn.innerHTML = 'Show Less <i class="fas fa-chevron-up"></i>';
+                card.style.display = 'none';
+                card.classList.remove('show');
             }
         });
+
+        // Show/Hide View More button based on category
+        if (hasHiddenInCategory || (viewMoreBtn && viewMoreBtn.classList.contains('expanded') && category === 'full-stack')) {
+            viewMoreContainer.style.display = 'flex';
+        } else {
+            viewMoreContainer.style.display = 'none';
+        }
     }
+
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter projects
+                const category = btn.getAttribute('data-filter');
+                filterProjects(category);
+                
+                // Reset View More button if switching categories
+                if (viewMoreBtn && viewMoreBtn.classList.contains('expanded')) {
+                    // We don't necessarily reset it, but the filter function handles the display
+                }
+            });
+        });
+    }
+
+    // 9. View More Projects Toggle (Updated for Filter)
+    if (viewMoreBtn) {
+        viewMoreBtn.addEventListener('click', () => {
+            const isExpanded = viewMoreBtn.classList.contains('expanded');
+            const activeCategory = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            
+            if (isExpanded) {
+                viewMoreBtn.classList.remove('expanded');
+                viewMoreBtn.innerHTML = '<span>View More Projects</span> <i class="fas fa-chevron-down"></i>';
+            } else {
+                viewMoreBtn.classList.add('expanded');
+                viewMoreBtn.innerHTML = '<span>Show Less</span> <i class="fas fa-chevron-up"></i>';
+            }
+            
+            filterProjects(activeCategory);
+        });
+    }
+
+    // Initialize with Full Stack
+    filterProjects('full-stack');
 });
