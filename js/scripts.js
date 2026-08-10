@@ -240,4 +240,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize with Full Stack
     filterProjects('full-stack');
+
+    // 10. Resume Dropdowns (nav + hero)
+    const resumeDropdowns = document.querySelectorAll('.resume-dropdown');
+
+    function closeAllResumeMenus(except) {
+        resumeDropdowns.forEach(dd => {
+            if (dd === except) return;
+            dd.classList.remove('open');
+            const toggle = dd.querySelector('.resume-toggle');
+            if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    resumeDropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.resume-toggle');
+        if (!toggle) return;
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const willOpen = !dropdown.classList.contains('open');
+            closeAllResumeMenus(dropdown);
+            dropdown.classList.toggle('open', willOpen);
+            toggle.setAttribute('aria-expanded', String(willOpen));
+        });
+
+        // Close once a resume is picked
+        dropdown.querySelectorAll('.resume-menu a').forEach(link => {
+            link.addEventListener('click', () => closeAllResumeMenus());
+        });
+    });
+
+    // Close on outside click or Escape
+    document.addEventListener('click', () => closeAllResumeMenus());
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAllResumeMenus();
+    });
+
+    // 11. Footer - auto year + back to top
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    const backToTop = document.querySelector('.back-to-top');
+    if (backToTop) {
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 });
