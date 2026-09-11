@@ -63,9 +63,8 @@
         </nav>
     </header>
 
-    <section id="home" class="hero">
+    <section id="home" class="hero hero--desk">
         <div class="hero-container">
-
 
             <div class="hero-content">
                 <div class="hero-badge">
@@ -136,6 +135,52 @@
                     <div class="scroll-arrow">
                         <i class="fas fa-chevron-down"></i>
                     </div>
+                </div>
+            </div>
+
+            <!-- Interactive 3D desk: every object opens a section of the portfolio -->
+            <div class="hero-desk" aria-label="Interactive 3D desk">
+                <div class="desk-stage">
+                    <div id="desk-scene" role="img"
+                        aria-label="A 3D desk with a laptop, notebook, phone, coffee mug, trophy, sticky notes, lamp and plant. Click an object to jump to that part of the portfolio.">
+                    </div>
+                    <div class="desk-label" id="desk-label" hidden>
+                        <strong></strong>
+                        <span></span>
+                    </div>
+                    <div class="desk-hint" id="desk-hint">
+                        <span class="desk-hint-dot"></span>
+                        <span>Click anything on the desk · drag to look around</span>
+                    </div>
+                    <div class="desk-loader" id="desk-loader">
+                        <div class="desk-loader-bar"><span></span></div>
+                        <span>Setting up the desk…</span>
+                    </div>
+                    <div class="desk-fallback">
+                        <i class="fas fa-cube"></i>
+                        <p>Your browser can't show the 3D desk. Use the shortcuts below to explore.</p>
+                    </div>
+                </div>
+
+                <div class="desk-legend" id="desk-legend" aria-label="Desk shortcuts">
+                    <button type="button" class="desk-chip" data-hotspot="laptop">
+                        <i class="fas fa-laptop-code"></i><span>Projects</span>
+                    </button>
+                    <button type="button" class="desk-chip" data-hotspot="notebook">
+                        <i class="fas fa-book"></i><span>Experience</span>
+                    </button>
+                    <button type="button" class="desk-chip" data-hotspot="pinboard">
+                        <i class="fas fa-sticky-note"></i><span>Skills</span>
+                    </button>
+                    <button type="button" class="desk-chip" data-hotspot="trophy">
+                        <i class="fas fa-trophy"></i><span>Problem Solving</span>
+                    </button>
+                    <button type="button" class="desk-chip" data-hotspot="mug">
+                        <i class="fas fa-mug-hot"></i><span>About</span>
+                    </button>
+                    <button type="button" class="desk-chip" data-hotspot="phone">
+                        <i class="fas fa-mobile-alt"></i><span>Contact</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -925,6 +970,17 @@
     <script src="js/background.js"></script>
     <script src="js/cursor.js"></script>
     <script src="js/scripts.js"></script>
+
+    <!-- 3D desk scene (Three.js via CDN, loaded as ES modules) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="js/desk.js"></script>
 </body>
 
 </html>
