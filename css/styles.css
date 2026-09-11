@@ -3235,9 +3235,8 @@ nav .resume-toggle {
 /* Hint pill */
 .desk-hint {
     position: absolute;
-    left: 50%;
+    right: 18px;
     bottom: 18px;
-    transform: translateX(-50%);
     z-index: 3;
     display: inline-flex;
     align-items: center;
@@ -3267,7 +3266,7 @@ nav .resume-toggle {
 
 .desk-hint.is-hidden {
     opacity: 0;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateY(10px);
 }
 
 /* Loader */
@@ -3473,6 +3472,9 @@ nav .resume-toggle {
         font-size: 0.72rem;
         padding: 8px 14px;
         bottom: 12px;
+        right: 12px;
+        white-space: normal;
+        max-width: 70%;
     }
 
     .desk-chip {
@@ -3484,6 +3486,8 @@ nav .resume-toggle {
 /* ============================================
    COMPACT ABOUT SECTION (fits one screen on desktop)
    ============================================ */
+
+@media (min-width: 901px) {
 
 .about-section {
     min-height: 100vh;
@@ -3602,17 +3606,6 @@ nav .resume-toggle {
     font-size: 0.9rem;
 }
 
-@media (max-width: 900px) {
-    .about-section {
-        min-height: 0;
-        display: block;
-        padding-top: 80px;
-        padding-bottom: 80px;
-    }
-
-    .about-image img {
-        height: 350px;
-    }
 }
 
 /* ============================================

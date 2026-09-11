@@ -918,6 +918,201 @@ function buildPinboard() {
     return g;
 }
 
+/* Rest directions of the coder's right arm bones (see buildCoder) and scratch objects for posing. */
+const ARM_UPPER_REST = new THREE.Vector3(0.12, -0.32, -0.36).normalize();
+const ARM_FORE_REST = new THREE.Vector3(-0.08, 0.16, -0.72).normalize();
+const _pose = {
+    e: new THREE.Euler(),
+    typeS: new THREE.Quaternion(),
+    typeE: new THREE.Quaternion(),
+    waveS: new THREE.Quaternion(),
+    waveE: new THREE.Quaternion(),
+    inv: new THREE.Quaternion(),
+    up: new THREE.Vector3(),
+    fore: new THREE.Vector3(),
+};
+
+/** Capsule "bone" running from point a to point b (local coords). */
+function limb(a, b, radius, material) {
+    const from = new THREE.Vector3(...a);
+    const to = new THREE.Vector3(...b);
+    const dir = to.clone().sub(from);
+    const len = dir.length();
+    const mesh = shadowed(new THREE.Mesh(new THREE.CapsuleGeometry(radius, len, 6, 12), material));
+    mesh.position.copy(from).add(to).multiplyScalar(0.5);
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+    return mesh;
+}
+
+/**
+ * The coder herself: a stylised low-poly character sitting at the desk,
+ * typing on the laptop. Origin is at desk-top height under the chair.
+ */
+function buildCoder() {
+    const g = new THREE.Group();
+
+    const skin = new THREE.MeshStandardMaterial({ color: 0xd9a37f, roughness: 0.7 });
+    const hair = new THREE.MeshStandardMaterial({ color: 0x241611, roughness: 0.55, metalness: 0.05 });
+    const hoodie = new THREE.MeshStandardMaterial({ color: 0x5a3d8f, roughness: 0.85 });
+    const hoodieDark = new THREE.MeshStandardMaterial({ color: 0x43296f, roughness: 0.85 });
+    const jeans = new THREE.MeshStandardMaterial({ color: 0x1f2b48, roughness: 0.9 });
+    const shoe = new THREE.MeshStandardMaterial({ color: 0xe6e8ec, roughness: 0.5 });
+    const chairMat = new THREE.MeshStandardMaterial({ color: 0x14171d, roughness: 0.55, metalness: 0.3 });
+    const accent = new THREE.MeshStandardMaterial({ color: BRAND.cyan, roughness: 0.35, metalness: 0.2, emissive: BRAND.cyan, emissiveIntensity: 0.25 });
+    const dark = new THREE.MeshStandardMaterial({ color: 0x0f1218, roughness: 0.5 });
+
+    /* --- Chair --- */
+    const seat = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.72, 0.09, 0.7), chairMat));
+    seat.position.set(0, -0.6, 0);
+    g.add(seat);
+    const cushion = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.04, 0.62), hoodieDark);
+    cushion.position.set(0, -0.545, 0);
+    g.add(cushion);
+
+    const back = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.8, 0.08), chairMat));
+    back.position.set(0, -0.15, 0.36);
+    back.rotation.x = 0.12;
+    g.add(back);
+    const backStripe = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.05, 0.02), accent);
+    backStripe.position.set(0, 0.16, 0.315);
+    backStripe.rotation.x = 0.12;
+    g.add(backStripe);
+
+    const post = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1.35, 12), MAT.metal));
+    post.position.set(0, -1.3, 0);
+    g.add(post);
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.12, 0.08, 16), MAT.metal);
+    hub.position.set(0, -2.0, 0);
+    g.add(hub);
+    for (let i = 0; i < 5; i++) {
+        const a = (i / 5) * Math.PI * 2;
+        const arm = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.04, 0.5), MAT.metal));
+        arm.position.set(Math.sin(a) * 0.25, -2.04, Math.cos(a) * 0.25);
+        arm.rotation.y = a;
+        g.add(arm);
+        const wheel = new THREE.Mesh(new THREE.SphereGeometry(0.05, 10, 10), dark);
+        wheel.position.set(Math.sin(a) * 0.48, -2.1, Math.cos(a) * 0.48);
+        g.add(wheel);
+    }
+
+    /* --- Body --- */
+    const body = new THREE.Group();
+    body.position.set(0, 0, -0.08);
+    g.add(body);
+
+    const torso = shadowed(new THREE.Mesh(new THREE.CapsuleGeometry(0.27, 0.5, 6, 16), hoodie));
+    torso.position.set(0, -0.12, 0);
+    torso.scale.set(1.05, 1, 0.8);
+    body.add(torso);
+    // hood bunched at the back of the neck
+    const hood = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 10), hoodieDark));
+    hood.position.set(0, 0.32, 0.16);
+    hood.scale.set(1.3, 0.6, 0.8);
+    body.add(hood);
+
+    // Legs: thighs forward under the desk, shins down to the floor
+    [-0.14, 0.14].forEach((x) => {
+        body.add(limb([x, -0.5, 0.05], [x * 1.2, -0.48, -0.55], 0.11, jeans));
+        body.add(limb([x * 1.2, -0.48, -0.55], [x * 1.2, -1.95, -0.5], 0.09, jeans));
+        const foot = shadowed(new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.09, 0.28), shoe));
+        foot.position.set(x * 1.2, -2.1, -0.6);
+        body.add(foot);
+        const sole = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.03, 0.29), accent);
+        sole.position.set(x * 1.2, -2.145, -0.6);
+        body.add(sole);
+    });
+
+    /* --- Arms (shoulder -> elbow group -> forearm + hand) --- */
+    const arms = {};
+    [
+        ['left', -1],
+        ['right', 1],
+    ].forEach(([name, s]) => {
+        const shoulder = new THREE.Group();
+        shoulder.position.set(s * 0.3, 0.26, 0);
+        body.add(shoulder);
+        const elbowPos = [s * 0.12, -0.32, -0.36];
+        shoulder.add(limb([0, 0, 0], elbowPos, 0.085, hoodie));
+        const elbow = new THREE.Group();
+        elbow.position.set(...elbowPos);
+        shoulder.add(elbow);
+        const handPos = [-s * 0.08, 0.16, -0.72];
+        elbow.add(limb([0, 0, 0], handPos, 0.07, hoodie));
+        const hand = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.075, 10, 10), skin));
+        hand.position.set(...handPos);
+        hand.scale.set(1, 0.7, 1.2);
+        elbow.add(hand);
+        arms[name] = { shoulder, elbow, hand };
+    });
+
+    /* --- Head --- */
+    const head = new THREE.Group();
+    head.position.set(0, 0.7, -0.02);
+    body.add(head);
+
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.09, 0.16, 12), skin);
+    neck.position.set(0, -0.2, 0);
+    head.add(neck);
+
+    const face = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.24, 20, 16), skin));
+    head.add(face);
+
+    // Eyes + blush (face points toward -z)
+    [-0.085, 0.085].forEach((x) => {
+        const eye = new THREE.Mesh(new THREE.SphereGeometry(0.028, 8, 8), dark);
+        eye.position.set(x, 0.03, -0.22);
+        head.add(eye);
+        const blush = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), new THREE.MeshStandardMaterial({ color: 0xff8fa3, roughness: 1 }));
+        blush.position.set(x * 1.6, -0.04, -0.2);
+        blush.scale.set(1, 0.6, 0.4);
+        head.add(blush);
+    });
+    const smile = new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.01, 6, 12, Math.PI), dark);
+    smile.position.set(0, -0.07, -0.23);
+    smile.rotation.z = Math.PI;
+    head.add(smile);
+
+    // Hair cap + fringe
+    const hairCap = shadowed(new THREE.Mesh(new THREE.SphereGeometry(0.265, 20, 16), hair));
+    hairCap.position.set(0, 0.04, 0.05);
+    hairCap.scale.set(1, 1, 1.02);
+    head.add(hairCap);
+    const fringe = new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 10), hair);
+    fringe.position.set(0.06, 0.12, -0.14);
+    fringe.scale.set(1.1, 0.55, 0.7);
+    head.add(fringe);
+
+    // Ponytail (pivots at the back of the head so it can sway)
+    const ponytail = new THREE.Group();
+    ponytail.position.set(0, 0.08, 0.26);
+    head.add(ponytail);
+    const tie = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.02, 8, 16), accent);
+    tie.rotation.x = Math.PI / 2;
+    ponytail.add(tie);
+    ponytail.add(limb([0, 0, 0], [0, -0.42, 0.12], 0.075, hair));
+    const tailTip = new THREE.Mesh(new THREE.SphereGeometry(0.085, 10, 10), hair);
+    tailTip.position.set(0, -0.44, 0.13);
+    ponytail.add(tailTip);
+
+    // Headphones
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.275, 0.025, 8, 24, Math.PI), MAT.metal);
+    band.position.set(0, 0.03, 0);
+    head.add(band);
+    [-1, 1].forEach((s) => {
+        const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.07, 16), dark);
+        cup.position.set(s * 0.26, 0.0, 0);
+        cup.rotation.z = Math.PI / 2;
+        head.add(cup);
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.012, 8, 20), accent);
+        ring.position.set(s * 0.3, 0.0, 0);
+        ring.rotation.y = Math.PI / 2;
+        head.add(ring);
+    });
+
+    g.userData.rig = { body, torso, head, ponytail, arms };
+    return g;
+}
+
 /* ------------------------------------------------------------------ */
 /* Scene                                                               */
 /* ------------------------------------------------------------------ */
@@ -951,8 +1146,8 @@ class DeskScene {
         this.legendHover = null;
         this.emissives = [];
 
-        this.baseCam = new THREE.Vector3(3.5, 3.4, 6.9);
-        this.baseLook = new THREE.Vector3(0.1, 0.45, 0);
+        this.baseCam = new THREE.Vector3(3.7, 3.5, 7.3);
+        this.baseLook = new THREE.Vector3(0.1, 0.3, 0.3);
         this.camPos = this.baseCam.clone();
         this.camLook = this.baseLook.clone();
 
@@ -1044,7 +1239,7 @@ class DeskScene {
                 new THREE.MeshBasicMaterial({ color: BRAND.cyan, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })
             );
             ring.rotation.x = -Math.PI / 2;
-            ring.position.set(opts.x, 0.012, opts.z);
+            ring.position.set(opts.x, opts.ringY ?? 0.012, opts.z);
             this.desk.add(ring);
 
             const hs = {
@@ -1079,7 +1274,7 @@ class DeskScene {
         add(this.laptop, {
             id: 'laptop',
             x: -0.45,
-            z: -0.15,
+            z: 0.2,
             yaw: -0.12,
             ring: 1.35,
             anchorY: 1.55,
@@ -1204,6 +1399,24 @@ class DeskScene {
             target: null,
             delay: 1.15,
             lift: 0.04,
+        });
+
+        // The coder -> About
+        this.coder = buildCoder();
+        add(this.coder, {
+            id: 'coder',
+            x: -0.45,
+            z: 1.78,
+            yaw: 0,
+            ring: 0.75,
+            ringY: -2.16,
+            anchorY: 1.15,
+            label: 'That’s me',
+            sub: 'A bit about Ananya',
+            target: '#about',
+            delay: 1.3,
+            lift: 0,
+            focus: { offset: [2.6, 1.4, 2.4], look: [0, 0.3, -0.2] },
         });
 
         this.hotspots.forEach((h) => (h.baseY = h.object.position.y));
@@ -1369,7 +1582,7 @@ class DeskScene {
             this.camera.aspect = width / height;
             // Push the camera back on narrow/portrait viewports so the desk stays in frame
             const aspectComp = clamp(1.3 / this.camera.aspect, 1, 1.75);
-            this.baseCam.set(3.5 * aspectComp, 3.4 * aspectComp, 6.9 * aspectComp);
+            this.baseCam.set(3.7 * aspectComp, 3.5 * aspectComp, 7.3 * aspectComp);
             this.camera.updateProjectionMatrix();
         }
         if (this.composer) this.composer.setSize(width, height);
@@ -1520,6 +1733,41 @@ class DeskScene {
         const lp = this.hotspots.find((h) => h.id === 'laptop');
         this.laptop.userData.hinge.rotation.x = lerp(this.laptop.userData.hinge.rotation.x, -0.28 - lp.hover * 0.08, 1 - Math.pow(0.002, dt));
         this.laptop.userData.spill.intensity = 1.4 + Math.sin(t * 3.1) * 0.15 + lp.hover * 0.8;
+
+        // The coder: breathing, typing, ponytail sway; turns and waves on hover
+        const cd = this.hotspots.find((h) => h.id === 'coder');
+        const rig = this.coder.userData.rig;
+        const w = Math.max(cd.hover, this.focused === cd ? 1 : 0);
+        rig.torso.scale.y = 1 + Math.sin(t * 1.7) * 0.012;
+        rig.body.position.y = Math.sin(t * 1.7) * 0.008;
+        rig.head.position.y = 0.7 + Math.sin(t * 1.7 + 0.5) * 0.01;
+        rig.head.rotation.x = lerp(0.12 * (1 - w), 0, w) + Math.sin(t * 0.9) * 0.02;
+        rig.head.rotation.y = lerp(Math.sin(t * 0.6) * 0.06, -1.25, w);
+        rig.head.rotation.z = lerp(0, 0.12, w);
+        rig.ponytail.rotation.x = Math.sin(t * 2.1) * 0.08 + w * 0.15;
+        rig.ponytail.rotation.z = Math.sin(t * 1.6) * 0.1 + Math.sin(t * 8) * 0.08 * w;
+
+        const typeL = Math.abs(Math.sin(t * 8.5)) * 0.08;
+        const typeR = Math.abs(Math.sin(t * 8.5 + 1.4)) * 0.08;
+        rig.arms.left.elbow.rotation.x = -typeL * (1 - w);
+        rig.arms.left.shoulder.rotation.x = Math.sin(t * 8.5) * 0.015 * (1 - w);
+        // Right arm: typing pose blended into a raised, waving pose on hover.
+        // The wave is defined by target directions (upper arm out to the side,
+        // forearm straight up) rather than stacked Euler angles.
+        {
+            const P = _pose;
+            const R = rig.arms.right;
+            P.typeS.setFromEuler(P.e.set(Math.sin(t * 8.5 + 1.4) * 0.015, 0, 0));
+            P.typeE.setFromEuler(P.e.set(-typeR, 0, 0));
+            P.up.set(0.8, 0.45, -0.15).normalize();
+            P.waveS.setFromUnitVectors(ARM_UPPER_REST, P.up);
+            P.fore.set(0.1 + Math.sin(t * 11) * 0.4, 0.95, 0.1).normalize();
+            P.inv.copy(P.waveS).invert();
+            P.waveE.setFromUnitVectors(ARM_FORE_REST, P.fore.applyQuaternion(P.inv));
+            R.shoulder.quaternion.slerpQuaternions(P.typeS, P.waveS, w);
+            R.elbow.quaternion.slerpQuaternions(P.typeE, P.waveE, w);
+        }
+        rig.body.rotation.y = lerp(0, -0.35, w);
 
         this.applyLamp();
         if (this.lamp.userData.on) {
