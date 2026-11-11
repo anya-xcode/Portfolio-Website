@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #04060d;
+  --color-charcoal: #080b15;
+  --color-panel: #0a0e1a;
+  --color-line: #1b2440;
+  --color-cobalt: #2250ff;
+  --color-lime: #c6ff1a;
+  --color-cobalt-deep: #0b1f7a;
+  --color-mute: #8d96ad;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; background: #04060d; }
+body { background: #04060d; color: #f4f4f5; font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+::selection { background: #2250ff; color: #fff; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+:focus-visible { outline: 2px solid #c6ff1a; outline-offset: 3px; }
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 85%);
+}
+.text-outline { -webkit-text-stroke: 1px rgba(255,255,255,.35); color: transparent; }
+.scanline { background: linear-gradient(to bottom, transparent, rgba(198,255,26,.35), transparent); animation: scan 4.5s linear infinite; }
+@keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(1000%); } }
+@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 0 rgba(198,255,26,.6); } 50% { box-shadow: 0 0 0 6px rgba(198,255,26,0); } }
+.live-dot { animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 32s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -24; } }
+.flow { animation: flow 1s linear infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.caret { animation: blink 1s steps(1) infinite; }
+
+.text-outline-faint { -webkit-text-stroke: 1px rgba(255,255,255,.09); color: transparent; }
+@keyframes loader-slide { to { transform: translateX(-50%); } }
+.loader-row { animation: loader-slide linear infinite; }
+@keyframes cube-turn { from { transform: rotateX(var(--tx)) rotateY(0deg) rotateZ(var(--tz)); } to { transform: rotateX(var(--tx)) rotateY(360deg) rotateZ(var(--tz)); } }
+.cube3d { animation: cube-turn 16s linear infinite; }
+
+/* Loader: visible outline text + bar shine */
+.text-outline-loader { -webkit-text-stroke: 1.5px rgba(255,255,255,.16); color: transparent; }
+@keyframes loader-shine { 0% { transform: translateX(0); } 100% { transform: translateX(450%); } }
+.loader-shine { animation: loader-shine 1.4s ease-in-out infinite; }
+
+/* Custom square cursor: hide the native one only while it is active (fine pointers) */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+}
