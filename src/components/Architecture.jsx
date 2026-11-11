@@ -35,7 +35,7 @@ export default function Architecture() {
                   }`}
                 >
                   <span className={`font-mono text-xs ${on ? 'text-lime' : 'text-mute'}`}>{l.id}</span>
-                  <span className="font-display text-lg font-semibold">{l.name}</span>
+                  <span className="font-display text-base font-semibold">{l.name}</span>
                   {on && <motion.span layoutId="layer-dot" className="live-dot ml-auto h-2 w-2 rounded-full bg-lime" />}
                 </button>
                 {i < layers.length - 1 && (
@@ -62,8 +62,8 @@ export default function Architecture() {
               transition={{ duration: 0.3, ease }}
             >
               <p className="font-mono text-[11px] tracking-[0.2em] text-lime">{L.tag}</p>
-              <h3 className="mt-4 font-display text-4xl font-semibold">{L.name}</h3>
-              <p className="mt-5 text-lg leading-relaxed text-mute">{L.d}</p>
+              <h3 className="mt-4 font-display text-3xl font-semibold">{L.name}</h3>
+              <p className="mt-5 text-base leading-relaxed text-mute">{L.d}</p>
               <ul className="mt-8 flex flex-wrap gap-2">
                 {L.tech.map((t) => (
                   <li key={t} className="rounded-full border border-line px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white">{t}</li>

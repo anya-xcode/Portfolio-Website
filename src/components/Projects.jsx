@@ -81,7 +81,7 @@ function ProjectCard({ p, onOpen }) {
         {/* body */}
         <div className="flex flex-1 flex-col p-6" style={{ transform: 'translateZ(25px)' }}>
           <p className="font-mono text-[11px] tracking-widest text-mute">{p.category}</p>
-          <h3 className="mt-3 font-display text-2xl font-semibold leading-tight transition-colors group-hover:text-lime">{p.name}</h3>
+          <h3 className="mt-3 font-display text-xl font-semibold leading-tight transition-colors group-hover:text-lime">{p.name}</h3>
           <p className="mt-3 flex-1 text-mute">{p.blurb}</p>
           <div className="mt-5"><Chips items={p.stack} /></div>
           <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-5">
@@ -168,8 +168,8 @@ function FeaturedCard({ onOpen }) {
           <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-lime">
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-lime" /> Featured system · {p.category}
           </p>
-          <h3 className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl">{p.name}</h3>
-          <p className="mt-4 text-lg text-mute">{p.blurb}</p>
+          <h3 className="mt-4 font-display text-2xl font-semibold leading-tight sm:text-3xl">{p.name}</h3>
+          <p className="mt-4 text-base text-mute">{p.blurb}</p>
           <ul className="mt-6 grid gap-2 sm:grid-cols-2">
             {p.points.map((pt) => (
               <li key={pt} className="flex gap-2 text-sm text-white"><span className="text-lime">▸</span>{pt}</li>
@@ -233,8 +233,8 @@ function Modal({ p, onClose }) {
               Close ✕
             </button>
           </div>
-          <h3 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{p.name}</h3>
-          <p className="mt-4 text-lg text-mute">{p.long}</p>
+          <h3 className="mt-3 font-display text-2xl font-semibold sm:text-3xl">{p.name}</h3>
+          <p className="mt-4 text-base text-mute">{p.long}</p>
 
           <h4 className="mt-8 font-mono text-[11px] uppercase tracking-[0.2em] text-lime">// Capabilities</h4>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">

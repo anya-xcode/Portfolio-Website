@@ -176,7 +176,7 @@ export default function Skills() {
                   <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-line bg-panel transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-[var(--brand)] group-hover:shadow-[0_0_24px_-6px_var(--brand)]">
                     <SkillIcon name={s} size={22} />
                   </span>
-                  <span className="font-display text-lg font-medium text-white/90 transition-colors group-hover:text-white">{s}</span>
+                  <span className="font-display text-base font-medium text-white/90 transition-colors group-hover:text-white">{s}</span>
                 </motion.li>
               ))}
             </motion.ul>

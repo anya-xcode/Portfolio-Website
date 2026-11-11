@@ -44,7 +44,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.9fr_1fr]">
           {/* brand */}
           <div>
-            <a href="#top" className="font-display text-3xl font-bold tracking-tight">
+            <a href="#top" className="font-display text-2xl font-bold tracking-tight">
               Ananya<span className="text-lime"> Gupta.</span>
             </a>
             <p className="mt-2 font-mono text-xs uppercase tracking-[0.2em] text-cobalt">AI Engineer // Full-Stack Developer</p>
@@ -54,7 +54,7 @@ export default function Footer() {
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/5 px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-lime">
               <span className="live-dot h-1.5 w-1.5 rounded-full bg-lime" /> Open to internships &amp; opportunities
             </div>
-            <a href={`mailto:${profile.email}`} className="mt-5 block break-all font-display text-lg text-white transition-colors hover:text-lime">
+            <a href={`mailto:${profile.email}`} className="mt-5 block break-all font-display text-base text-white transition-colors hover:text-lime">
               {profile.email}
             </a>
           </div>
@@ -141,10 +141,10 @@ export default function Footer() {
 
       {/* giant wordmark: outline that fills with the brand gradient on hover */}
       <div className="group relative mx-auto max-w-[100rem] select-none px-3 pt-8" aria-hidden="true">
-        <p className="text-outline whitespace-nowrap text-center font-display text-[13.5vw] font-bold leading-[0.8] tracking-tighter xl:text-[13rem]">
+        <p className="text-outline whitespace-nowrap text-center font-display text-[11vw] font-bold leading-[0.8] tracking-tighter xl:text-[10.5rem]">
           ANANYA GUPTA
         </p>
-        <p className="absolute inset-x-3 top-8 whitespace-nowrap bg-gradient-to-r from-cobalt via-[#4f7bff] to-lime bg-clip-text text-center font-display text-[13.5vw] font-bold leading-[0.8] tracking-tighter text-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100 xl:text-[13rem]">
+        <p className="absolute inset-x-3 top-8 whitespace-nowrap bg-gradient-to-r from-cobalt via-[#4f7bff] to-lime bg-clip-text text-center font-display text-[11vw] font-bold leading-[0.8] tracking-tighter text-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100 xl:text-[10.5rem]">
           ANANYA GUPTA
         </p>
       </div>

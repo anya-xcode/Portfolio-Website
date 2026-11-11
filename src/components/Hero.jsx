@@ -111,7 +111,7 @@ export default function Hero() {
             // PORTFOLIO · SOFTWARE ENGINEER INTERN
           </motion.p>
 
-          <h1 className="mt-6 font-display text-[clamp(3rem,11vw,7.5rem)] font-bold leading-[1] tracking-tight">
+          <h1 className="mt-6 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-bold leading-[1] tracking-tight">
             {['ANANYA', 'GUPTA.'].map((w, i) => (
               <span key={w} className="block overflow-hidden pb-1">
                 <motion.span
@@ -130,7 +130,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-6 font-mono text-sm tracking-[0.18em] text-lime sm:text-base"
+            className="mt-6 font-mono text-xs tracking-[0.18em] text-lime sm:text-sm"
           >
             {profile.role}
           </motion.p>
@@ -139,7 +139,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.7, ease }}
-            className="mt-6 max-w-xl text-lg text-mute"
+            className="mt-6 max-w-xl text-base text-mute"
           >
             “{profile.tagline}” I’m a Computer Science student specialising in AI &amp; ML, currently working as a
             Software Engineer Intern — building <Typewriter />
