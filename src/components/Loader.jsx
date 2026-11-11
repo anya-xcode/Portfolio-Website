@@ -46,7 +46,7 @@ export default function Loader({ onDone }) {
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#020308]"
     >
       {/* scrolling outlined text */}
-      <div className="absolute inset-0 flex flex-col justify-center gap-[0.18em] font-display text-[clamp(3.25rem,9.5vw,8.5rem)] font-bold leading-[1.15]" aria-hidden="true">
+      <div className="absolute inset-0 flex flex-col justify-center gap-[0.18em] font-display text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[1.15]" aria-hidden="true">
         {ROWS.map((r, i) => (
           <div key={i} className="overflow-hidden whitespace-nowrap">
             <div className="loader-row flex w-max text-outline-loader" style={{ animationDirection: r.dir, animationDuration: `${r.dur}s` }}>
@@ -60,7 +60,7 @@ export default function Loader({ onDone }) {
 
       {/* counter + bar */}
       <div className="relative w-[min(88vw,1000px)] text-center">
-        <p className="font-display text-[clamp(3.5rem,9vw,6rem)] font-bold leading-none tabular-nums text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+        <p className="font-display text-[clamp(2.75rem,7vw,4.5rem)] font-bold leading-none tabular-nums text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
           {pct}<span className="text-lime">%</span>
         </p>
         <div className="mt-5 h-12 rounded-full border border-white/10 bg-[#0d1222]/95 p-[5px] shadow-[0_0_0_1px_rgba(34,80,255,0.12),0_20px_60px_rgba(0,0,0,0.6)] sm:h-14 sm:p-1.5">

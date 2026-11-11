@@ -20,7 +20,7 @@ export default function About() {
       <Section id="about">
         <SectionHead index="01.00" tag="ABOUT" title="Engineer profile & philosophy" />
         <div className="grid gap-12 lg:grid-cols-2">
-          <div className="space-y-6 text-lg leading-relaxed text-mute">
+          <div className="space-y-5 text-base leading-relaxed text-mute">
             <Reveal>
               <p>
                 I’m a Computer Science student specialising in <span className="text-white">AI &amp; ML</span>, working
@@ -36,7 +36,7 @@ export default function About() {
               </p>
             </Reveal>
             <Reveal delay={0.2}>
-              <blockquote className="border-l-2 border-lime pl-5 font-display text-2xl leading-snug text-white">
+              <blockquote className="border-l-2 border-lime pl-5 font-display text-xl leading-snug text-white">
                 Intelligent features are only as good as the systems underneath them.
               </blockquote>
             </Reveal>
@@ -48,7 +48,7 @@ export default function About() {
                 <motion.li whileHover={{ x: 8 }} className="group flex gap-5 py-6">
                   <span className="font-mono text-sm text-lime">{f.k}.</span>
                   <div>
-                    <h3 className="font-display text-xl font-semibold transition-colors group-hover:text-lime">{f.t}</h3>
+                    <h3 className="font-display text-lg font-semibold transition-colors group-hover:text-lime">{f.t}</h3>
                     <p className="mt-1 text-mute">{f.d}</p>
                   </div>
                 </motion.li>

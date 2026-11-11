@@ -47,7 +47,7 @@ function PlatformCard({ p, i }) {
 
         <div className="relative mt-7 flex flex-1 flex-col" style={{ transform: 'translateZ(20px)' }}>
           <p className="font-mono text-[10px] tracking-[0.22em] text-[var(--brand)]">{p.tag}</p>
-          <h3 className="mt-2 font-display text-3xl font-semibold">{p.name}</h3>
+          <h3 className="mt-2 font-display text-2xl font-semibold">{p.name}</h3>
           <p className="mt-1 truncate font-mono text-xs text-mute">{p.display}</p>
 
           <ul className="mt-6 flex-1 space-y-3">

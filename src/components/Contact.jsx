@@ -37,7 +37,7 @@ export default function Contact() {
         whileInView="show"
         viewport={{ once: true, margin: '-80px' }}
         transition={{ staggerChildren: 0.12 }}
-        className="mt-5 font-display text-[clamp(2.5rem,8vw,6.5rem)] font-bold uppercase leading-[1.05] tracking-tight"
+        className="mt-5 font-display text-[clamp(2rem,6vw,4.5rem)] font-bold uppercase leading-[1.05] tracking-tight"
       >
         {[["Let's build", ''], ['something', ''], ['intelligent.', 'text-outline']].map(([l, cls]) => (
           <span key={l} className="block overflow-hidden pb-1">
@@ -57,7 +57,7 @@ export default function Contact() {
           <div className="space-y-4">
             <div className="rounded-2xl border border-line bg-panel/80 p-6">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-mute">Email</p>
-              <a href={`mailto:${profile.email}`} className="mt-2 block break-all font-display text-xl hover:text-lime sm:text-2xl">
+              <a href={`mailto:${profile.email}`} className="mt-2 block break-all font-display text-lg hover:text-lime sm:text-xl">
                 {profile.email}
               </a>
               <button type="button" onClick={copy} className="mt-4 font-mono text-xs uppercase tracking-widest text-lime hover:text-white">

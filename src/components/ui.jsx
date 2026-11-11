@@ -25,11 +25,11 @@ export function SectionHead({ index, tag, title, sub }) {
         </p>
       </Reveal>
       <Reveal delay={0.08}>
-        <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">{title}</h2>
+        <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.08] tracking-tight sm:text-4xl md:text-5xl">{title}</h2>
       </Reveal>
       {sub && (
         <Reveal delay={0.16}>
-          <p className="mt-5 text-lg text-mute">{sub}</p>
+          <p className="mt-4 text-base text-mute">{sub}</p>
         </Reveal>
       )}
     </div>

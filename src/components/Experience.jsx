@@ -33,8 +33,8 @@ export default function Experience() {
                 <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-lime">
                   <span className="live-dot h-1.5 w-1.5 rounded-full bg-lime" /> Current
                 </p>
-                <h3 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">{x.role}</h3>
-                <p className="mt-1 text-xl text-mute">{x.company}</p>
+                <h3 className="mt-3 font-display text-2xl font-semibold sm:text-3xl">{x.role}</h3>
+                <p className="mt-1 text-lg text-mute">{x.company}</p>
                 <p className="mt-4 max-w-xl text-mute">{x.summary}</p>
               </div>
               <div className="flex items-center gap-4 sm:flex-col sm:items-end">
