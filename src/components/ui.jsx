@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { nav } from '../data.js';
 
 export const ease = [0.22, 1, 0.36, 1];
 
@@ -21,7 +22,7 @@ export function SectionHead({ index, tag, title, sub }) {
     <div className="mb-14 max-w-3xl">
       <Reveal>
         <p className="font-mono text-xs tracking-[0.2em] text-lime">
-          // {index} SEC_{tag} <span className="text-mute">[{index.slice(0, 2)} / 07]</span>
+          // {index} SEC_{tag} <span className="text-mute">[{index.slice(0, 2)} / {String(nav.length).padStart(2, '0')}]</span>
         </p>
       </Reveal>
       <Reveal delay={0.08}>

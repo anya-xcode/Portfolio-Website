@@ -7,6 +7,7 @@ import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
 import Experience from './components/Experience.jsx';
 import Projects from './components/Projects.jsx';
+import OpenSource from './components/OpenSource.jsx';
 import Skills from './components/Skills.jsx';
 import ProblemSolving from './components/ProblemSolving.jsx';
 import Architecture from './components/Architecture.jsx';
@@ -28,6 +29,7 @@ export default function App() {
         <About />
         <Experience />
         <Projects />
+        <OpenSource />
         <Skills />
         <ProblemSolving />
         <Architecture />

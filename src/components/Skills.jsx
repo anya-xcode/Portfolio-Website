@@ -124,7 +124,7 @@ export default function Skills() {
   return (
     <Section id="skills">
       <SectionHead
-        index="04.00"
+        index="05.00"
         tag="MATRIX"
         title="Technologies I work with"
         sub="The core tools I use to build interfaces, back-ends and AI systems, grouped by the layer they live in. Hover a cube to inspect it."
