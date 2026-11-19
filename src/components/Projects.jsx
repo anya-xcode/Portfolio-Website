@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useTilt from '../hooks/useTilt.js';
 import { siGithub } from 'simple-icons';
@@ -146,7 +146,7 @@ function FlowDiagram({ flow }) {
         </ol>
       </div>
       <div className="relative flex flex-wrap gap-2">
-        {['React', 'Node.js', 'MongoDB', 'LLM'].map((t) => (
+        {['Node.js', 'MongoDB', 'Gemini', 'MS Graph'].map((t) => (
           <span key={t} className="rounded-full bg-cobalt/20 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[#9db2ff]">{t}</span>
         ))}
       </div>
@@ -257,11 +257,24 @@ function Modal({ p, onClose }) {
   );
 }
 
+// One full row on desktop; the rest sit behind "Show more" so the section stays short on phones.
+const INITIAL_PROJECTS = 3;
+
 export default function Projects() {
   const [sel, setSel] = useState(null);
   const [filter, setFilter] = useState('all');
+  const [expanded, setExpanded] = useState(false);
+  const filtersRef = useRef(null);
   const shown = filter === 'all' ? projects : projects.filter((p) => p.tags.includes(filter));
+  const visible = expanded ? shown : shown.slice(0, INITIAL_PROJECTS);
+  const more = shown.length - INITIAL_PROJECTS;
   const count = (id) => (id === 'all' ? projects.length : projects.filter((p) => p.tags.includes(id)).length);
+
+  const toggleMore = () => {
+    // Collapsing from far down the list would leave the reader below the section; bring the filters back into view.
+    if (expanded && filtersRef.current.getBoundingClientRect().top < 0) filtersRef.current.scrollIntoView({ block: 'start' });
+    setExpanded((e) => !e);
+  };
 
   return (
     <Section id="projects">
@@ -269,7 +282,7 @@ export default function Projects() {
 
       <FeaturedCard onOpen={setSel} />
 
-      <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter projects">
+      <div ref={filtersRef} className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter projects">
         {projectFilters.map((f) => (
           <button
             key={f.id}
@@ -288,9 +301,9 @@ export default function Projects() {
         ))}
       </div>
 
-      <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <motion.div layout id="project-grid" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
-          {shown.map((p) => (
+          {visible.map((p) => (
             <motion.div
               key={p.id}
               layout
@@ -304,6 +317,15 @@ export default function Projects() {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {more > 0 && (
+        <div className="mt-10 flex justify-center">
+          <Btn variant="ghost" type="button" onClick={toggleMore} aria-expanded={expanded} aria-controls="project-grid">
+            {expanded ? 'Show less' : `Show ${more} more project${more === 1 ? '' : 's'}`}
+            <motion.span aria-hidden="true" animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.3, ease }}>↓</motion.span>
+          </Btn>
+        </div>
+      )}
 
       <AnimatePresence>{sel && <Modal p={sel} onClose={() => setSel(null)} />}</AnimatePresence>
     </Section>

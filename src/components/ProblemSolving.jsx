@@ -84,7 +84,7 @@ export default function ProblemSolving() {
   return (
     <Section id="problem-solving">
       <SectionHead
-        index="05.00"
+        index="06.00"
         tag="PROBLEM_SOLVING"
         title="Problem solving & open source"
         sub="Sharpening DSA through competitive programming, and writing real-world code in the open."

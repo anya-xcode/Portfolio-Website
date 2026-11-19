@@ -108,7 +108,7 @@ export default function Hero() {
             className="flex items-center gap-3 font-mono text-xs tracking-[0.2em] text-lime"
           >
             <span className="live-dot h-2 w-2 rounded-full bg-lime" />
-            // PORTFOLIO · SOFTWARE ENGINEER INTERN
+            // PORTFOLIO · AI / FULL STACK ENGINEERING INTERN
           </motion.p>
 
           <h1 className="mt-6 font-display text-[clamp(2.5rem,8vw,5.5rem)] font-bold leading-[1] tracking-tight">
@@ -141,8 +141,8 @@ export default function Hero() {
             transition={{ delay: 0.75, duration: 0.7, ease }}
             className="mt-6 max-w-xl text-base text-mute"
           >
-            “{profile.tagline}” I’m a Computer Science student specialising in AI &amp; ML, currently working as a
-            Software Engineer Intern — building <Typewriter />
+            “{profile.tagline}” I’m a Computer Science student specialising in AI &amp; ML, currently working as an
+            AI / Full Stack Engineering Intern — building <Typewriter />
           </motion.p>
 
           <motion.div

@@ -30,7 +30,7 @@ export default function Contact() {
 
   return (
     <Section id="contact">
-      <p className="font-mono text-xs tracking-[0.2em] text-lime">// 07.00 SEC_CONTACT · DIRECT CONNECT</p>
+      <p className="font-mono text-xs tracking-[0.2em] text-lime">// 08.00 SEC_CONTACT · DIRECT CONNECT</p>
       {/* The in-view trigger lives on the h2 (not the clipped lines), otherwise IntersectionObserver never sees them. */}
       <motion.h2
         initial="hidden"

@@ -14,7 +14,7 @@ export default function Architecture() {
 
   return (
     <Section id="architecture">
-      <SectionHead index="06.00" tag="ARCHITECTURE" title="How I build systems" sub="Click a layer to inspect its purpose." />
+      <SectionHead index="07.00" tag="ARCHITECTURE" title="How I build systems" sub="Click a layer to inspect its purpose." />
 
       <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
         <div role="tablist" aria-label="System layers" aria-orientation="vertical" onKeyDown={onKey} className="relative">
